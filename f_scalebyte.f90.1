@@ -1,0 +1,22 @@
+!
+!
+!
+      subroutine  funx_scalebyte ( isize, rsize, unitstr ) 
+!
+      implicit none
+!
+      include  'i_param.inc'
+!
+      integer(ck_off_t),intent(in)  :: isize
+      real(ck_float),intent(out)    :: rsize
+      character(len=3),intent(out)  :: unitstr
+!
+      external    c_utils_scalebyte
+!
+!
+      call c_utils_scalebyte ( isize, rsize, unitstr )
+
+      unitstr(3:) = '' 
+
+      return 
+      end subroutine funx_scalebyte 

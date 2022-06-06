@@ -1,0 +1,107 @@
+!-----------------------------------------------------------------------
+!
+!     Write binary (in byte) to stream
+!
+!-----------------------------------------------------------------------
+!
+!     Level 1: interoperating with C directly.
+!
+!-----
+      subroutine  f_fwrite_astr ( &
+                  file, astr, len_astr, m ) 
+!
+      use mod_funx_param, only: ck_file, ck_size_t, ck_int
+      implicit none 
+!
+      type(ck_file),intent(in)               :: file 
+      integer(kind=ck_size_t),intent(in)     :: len_astr
+      character(len=len_astr),intent(in)     :: astr 
+      integer(kind=ck_size_t),intent(out)    :: m 
+!
+      external    c_fwrite_astr
+!
+!
+      call c_fwrite_astr ( file % ptr, astr, len_astr, m )
+!
+      return 
+      end subroutine f_fwrite_astr
+!
+!-----------------------------------------------------------------------
+!
+!     Level 2:
+!
+!-----
+      subroutine  funx_fwrite_astr ( &
+                  file, astr, len_astr, m, errno ) 
+!
+      use mod_funx_param, only: ck_file, ck_size_t, ck_int
+      implicit none 
+!
+!     include     'i_param.inc'
+!
+      type(ck_file),intent(in)               :: file 
+      integer(kind=ck_size_t),intent(in)     :: len_astr
+      character(len=len_astr),intent(in)     :: astr 
+      integer(kind=ck_size_t),intent(out)    :: m 
+      integer(kind=ck_int),intent(out)       :: errno
+!
+      external    funx_seterrno, funx_geterrno, &
+                  f_fwrite_astr
+!
+!
+      errno = 0 
+      call funx_seterrno ( errno )
+
+      call f_fwrite_astr ( file, astr, len_astr, m )
+!
+!     We know that m = 0 (done) or 1 (some error).
+!
+      call funx_geterrno ( errno )
+
+      return 
+      end subroutine funx_fwrite_astr
+!
+!-----------------------------------------------------------------------
+!
+!     New version: 
+!        Pass arguments using its reference with value in integer(8), i.e.  
+!        intptr_t defined in /usr/include/stdint.h
+!
+!-----------------------------------------------------------------------
+!
+!     Level 1:
+!
+!-----
+!
+      subroutine  f_fwrite_astr_intref ( &
+                  iptr, astr, len_astr, m ) 
+!
+      use mod_funx_param, only: ck_intptr_t, ck_size_t, ck_int
+      implicit none 
+!
+      integer(kind=ck_intptr_t),intent(in)   :: iptr 
+      integer(kind=ck_size_t),intent(in)     :: len_astr
+      character(len=len_astr),intent(in)     :: astr 
+      integer(kind=ck_size_t),intent(out)    :: m 
+!
+      external    c_fwrite_astr_intref
+!
+!
+      call c_fwrite_astr_intref ( iptr, astr, len_astr, m )
+!
+      return 
+      end subroutine f_fwrite_astr_intref
+!-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+!
+!
+!

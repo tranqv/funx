@@ -1,0 +1,250 @@
+!-----------------------------------------------------------------------
+!
+!     dependence: i_utils.h
+!
+!
+      subroutine funx_dec2oct ( idec, ioct )
+!
+      implicit none 
+!
+      include     'i_param.inc'
+!
+      integer(kind=ck_mode_t),intent(in)   :: idec 
+      integer(kind=ck_mode_t),intent(out)  :: ioct 
+!
+      external    c_utils_dec2oct
+!
+!     511 --> 777
+!
+      call c_utils_dec2oct ( idec, ioct ) 
+!
+      return 
+      end subroutine  funx_dec2oct
+!-----------------------------------------------------------------------
+!
+!     dependence: i_utils.h
+!
+!
+      subroutine funx_oct2dec ( ioct, idec )
+!
+      implicit none 
+!
+      include     'i_param.inc'
+!
+      integer(kind=ck_mode_t),intent(in)   :: ioct 
+      integer(kind=ck_mode_t),intent(out)  :: idec 
+!
+      external    c_utils_oct2dec
+!     777 --> 511 
+!
+      call c_utils_oct2dec ( ioct, idec ) 
+!
+      return 
+      end subroutine  funx_oct2dec
+!-----------------------------------------------------------------------
+!
+!     dependence: i_utils.h
+!
+!     str must have length at least of 10, i.e. 10 bytes.
+!
+      subroutine funx_oct2per ( ioct, str )
+!
+      implicit none 
+!
+      include     'i_param.inc'
+!
+      integer(kind=ck_mode_t),intent(in)  :: ioct 
+      character(len=*),intent(inout)      :: str 
+!
+      external    c_utils_oct2per 
+!
+!     777   --> rwxrwxrwx
+!
+      call c_utils_oct2per ( ioct, str ) 
+      str(10:) = '' 
+!
+      return 
+      end subroutine  funx_oct2per
+!-----------------------------------------------------------------------
+!
+      subroutine funx_per2oct ( str, ioct )
+!
+      implicit none 
+!
+      include     'i_param.inc'
+!
+      character(len=*),intent(in)         :: str 
+      integer(kind=ck_mode_t),intent(out) :: ioct 
+!
+      external    c_utils_per2oct
+!
+!     rwxrwxrwx --> 777
+!
+      call c_utils_per2oct ( str//ck_char_nul, ioct )
+!
+      return 
+      end subroutine  funx_per2oct
+!-----------------------------------------------------------------------
+!
+!     dependence: i_utils.h
+!
+!     str must have length at least of 10, i.e. 10 bytes.
+!
+      subroutine funx_dec2per ( ioct, str )
+!
+      implicit none 
+!
+      include     'i_param.inc'
+!
+      integer(kind=ck_mode_t),intent(in)  :: ioct 
+      character(len=*),intent(inout)      :: str 
+!
+      external    c_utils_dec2per 
+!
+!     511   --> rwxrwxrwx
+!
+      call c_utils_dec2per ( ioct, str ) 
+      str(10:) = '' 
+!
+      return 
+      end subroutine  funx_dec2per
+!-----------------------------------------------------------------------
+!
+      subroutine funx_per2dec ( str, ioct )
+!
+      implicit none 
+!
+      include     'i_param.inc'
+!
+      character(len=*),intent(in)         :: str 
+      integer(kind=ck_mode_t),intent(out) :: ioct 
+!
+      external    c_utils_per2dec
+!
+!     rwxrwxrwx --> 511
+!
+      call c_utils_per2dec ( str//ck_char_nul, ioct )
+!
+      return 
+      end subroutine  funx_per2dec
+!-----------------------------------------------------------------------
+!
+!     FUP:  Fully Unix Permission 
+!
+!     str = 'drwxrwxrwx UGS'
+!            123456789|||||
+!                    10||||
+!                     11|||
+!                      12||
+!                       13|
+!                        14
+!     str(1:1)
+!        -  regular file 
+!        l  symbolic link 
+!        d  directory 
+!        b  block device 
+!        c  character device 
+!        p  FIFO special file  
+!        s  Socket file  
+!     str(12:12)
+!        U  set-user-ID on execute bit
+!        -  not set 
+!     str(13:13)
+!        G  set-group-ID on execute bit
+!        -  not set 
+!     str(14:14)
+!        S  set sticky bit
+!        -  not set 
+!
+!-----------------------------------------------------------------------
+!
+!     dependence: i_utils.h
+!
+!     str must have length at least of 14, i.e. 14 bytes.
+!
+      subroutine funx_oct2fup ( ioct, str )
+!
+      implicit none 
+!
+      include     'i_param.inc'
+!
+      integer(kind=ck_mode_t),intent(in)  :: ioct 
+      character(len=*),intent(inout)      :: str 
+!
+      external    c_utils_oct2fup 
+!
+!     777   --> rwxrwxrwx
+!
+      call c_utils_oct2fup ( ioct, str ) 
+      str(15:) = '' 
+!
+      return 
+      end subroutine  funx_oct2fup
+!-----------------------------------------------------------------------
+!
+      subroutine funx_fup2oct ( str, ioct )
+!
+      implicit none 
+!
+      include     'i_param.inc'
+!
+      character(len=*),intent(in)         :: str 
+      integer(kind=ck_mode_t),intent(out) :: ioct 
+!
+      external    c_utils_fup2oct
+!
+!     rwxrwxrwx --> 777
+!
+      call c_utils_fup2oct ( str//ck_char_nul, ioct )
+!
+      return 
+      end subroutine  funx_fup2oct
+!-----------------------------------------------------------------------
+!
+!     dependence: i_utils.h
+!
+!     str must have length at least of 14, i.e. 14 bytes.
+!
+      subroutine funx_dec2fup ( ioct, str )
+!
+      implicit none 
+!
+      include     'i_param.inc'
+!
+      integer(kind=ck_mode_t),intent(in)  :: ioct 
+      character(len=*),intent(inout)      :: str 
+!
+      external    c_utils_dec2fup 
+!
+!     511   --> rwxrwxrwx
+!
+      call c_utils_dec2fup ( ioct, str ) 
+      str(15:) = '' 
+!
+      return 
+      end subroutine  funx_dec2fup
+!-----------------------------------------------------------------------
+!
+      subroutine funx_fup2dec ( str, ioct )
+!
+      implicit none 
+!
+      include     'i_param.inc'
+!
+      character(len=*),intent(in)         :: str 
+      integer(kind=ck_mode_t),intent(out) :: ioct 
+!
+      external    c_utils_fup2dec
+!
+!     rwxrwxrwx --> 511
+!
+      call c_utils_fup2dec ( str//ck_char_nul, ioct )
+!
+      return 
+      end subroutine  funx_fup2dec
+!-----------------------------------------------------------------------
+
+
+
+!-----------------------------------------------------------------------
+!-----------------------------------------------------------------------

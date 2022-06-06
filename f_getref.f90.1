@@ -1,0 +1,134 @@
+!-----------------------------------------------------------------------
+!
+!
+!-----
+!
+      subroutine  f_utils_vgetaddr_int ( var, ref )
+!
+      use mod_funx_param, only: ck_int, ck_intptr_t
+      implicit none 
+!
+      integer(kind=ck_int),      intent(in)  :: var 
+      integer(kind=ck_intptr_t), intent(out) :: ref 
+!
+      external    c_utils_vgetaddr
+!
+!
+      call c_utils_vgetaddr ( var, ref )
+      return 
+      end subroutine  f_utils_vgetaddr_int
+!-----------------------------------------------------------------------
+!
+      subroutine  f_utils_vgetaddr_long ( var, ref )
+!
+      use mod_funx_param, only: ck_intptr_t
+      implicit none 
+!
+      integer(kind=ck_intptr_t), intent(in)  :: var 
+      integer(kind=ck_intptr_t), intent(out) :: ref 
+!
+      external    c_utils_vgetaddr
+!
+!
+      call c_utils_vgetaddr ( var, ref )
+      return 
+      end subroutine  f_utils_vgetaddr_long
+!-----------------------------------------------------------------------
+!
+      subroutine  f_utils_vgetaddr_float ( var, ref )
+!
+      use mod_funx_param, only: ck_float, ck_intptr_t
+      implicit none 
+!
+      real(kind=ck_float),       intent(in)  :: var 
+      integer(kind=ck_intptr_t), intent(out) :: ref 
+!
+      external    c_utils_vgetaddr
+!
+!
+      call c_utils_vgetaddr ( var, ref )
+      return
+      end subroutine  f_utils_vgetaddr_float
+!-----------------------------------------------------------------------
+!
+      subroutine  f_utils_vgetaddr_double ( var, ref )
+!
+      use mod_funx_param, only: ck_double, ck_intptr_t
+      implicit none 
+!
+      real(kind=ck_double),      intent(in)  :: var 
+      integer(kind=ck_intptr_t), intent(out) :: ref 
+!
+      external    c_utils_vgetaddr
+!
+!
+      call c_utils_vgetaddr ( var, ref )
+      return 
+      end subroutine  f_utils_vgetaddr_double 
+!-----------------------------------------------------------------------
+!
+      subroutine  f_utils_vgetaddr_char ( var, ref )
+!
+      use mod_funx_param, only: ck_intptr_t
+      implicit none 
+!
+      character(len=1),          intent(in)  :: var 
+      integer(kind=ck_intptr_t), intent(out) :: ref 
+!
+      external    c_utils_vgetaddr
+!
+!
+      call c_utils_vgetaddr ( var, ref )
+      return
+      end subroutine  f_utils_vgetaddr_char  
+!-----------------------------------------------------------------------
+!
+      subroutine  f_utils_vgetaddr_str  ( var, ref )
+!
+      use mod_funx_param, only: ck_intptr_t
+      implicit none 
+!
+      character(len=*),          intent(in)  :: var 
+      integer(kind=ck_intptr_t), intent(out) :: ref 
+!
+      external    c_utils_vgetaddr
+!
+!
+      call c_utils_vgetaddr ( var, ref )
+      return 
+      end subroutine  f_utils_vgetaddr_str   
+!-----------------------------------------------------------------------
+!
+      subroutine  f_utils_vgetaddr_complexs ( var, ref )
+!
+      use mod_funx_param, only: ck_float, ck_intptr_t
+      implicit none 
+!
+      complex(kind=ck_float),    intent(in)  :: var 
+      integer(kind=ck_intptr_t), intent(out) :: ref 
+!
+      external    c_utils_vgetaddr
+!
+!
+      call c_utils_vgetaddr ( var, ref )
+      return 
+      end subroutine  f_utils_vgetaddr_complexs
+!-----------------------------------------------------------------------
+!
+      subroutine  f_utils_vgetaddr_complexd ( var, ref )
+!
+      use mod_funx_param, only: ck_double, ck_intptr_t
+      implicit none 
+!
+!     include     'i_param.inc'
+!
+      complex(kind=ck_double),   intent(in)  :: var 
+      integer(kind=ck_intptr_t), intent(out) :: ref 
+!
+      external    c_utils_vgetaddr
+!
+!
+      call c_utils_vgetaddr ( var, ref )
+      return 
+      end subroutine  f_utils_vgetaddr_complexd
+!-----------------------------------------------------------------------

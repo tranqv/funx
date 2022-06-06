@@ -1,0 +1,146 @@
+!-----------------------------------------------------------------------
+!
+!     Level 1: 
+!
+!-----
+      subroutine  f_fstdin ( file ) 
+!
+      use mod_funx_param, only: ck_file
+      implicit none 
+!
+      type(ck_file),intent(inout) :: file 
+!
+      external    c_fstdin 
+!
+!
+      call c_fstdin ( file % ptr )
+!
+      return 
+      end subroutine f_fstdin 
+!
+!-----------------------------------------------------------------------
+!
+!     Level 2: 
+!
+!-----
+      subroutine  funx_fstdin ( file ) 
+!
+      use mod_funx_param, only: ck_file
+      implicit none 
+!
+      type(ck_file),intent(inout) :: file 
+!
+      external    f_fstdin 
+!
+!
+      call f_fstdin ( file )
+!
+      return 
+      end subroutine funx_fstdin 
+!
+!-----------------------------------------------------------------------
+!
+!
+      subroutine  funx_fstdout ( file ) 
+!
+      use mod_funx_param, only: ck_file
+      implicit none 
+!
+!     include     'i_param.inc'
+!
+      type(ck_file),intent(inout) :: file 
+!
+      external    c_fstdout
+!
+!
+      call c_fstdout ( file % ptr )
+!
+      return 
+      end subroutine funx_fstdout
+!
+!-----------------------------------------------------------------------
+!
+!
+      subroutine  funx_fstderr ( file ) 
+!
+      use mod_funx_param, only: ck_file
+      implicit none 
+!
+!     include     'i_param.inc'
+!
+      type(ck_file),intent(inout)      :: file 
+!
+      external    c_fstderr
+!
+!
+      call c_fstderr ( file % ptr )
+!
+      return 
+      end subroutine funx_fstderr
+!
+!-----------------------------------------------------------------------
+!
+!     New version: 
+!        Pass arguments using its reference with value in integer(8),
+!        i.e. intptr_t defined in /usr/include/stdint.h
+!
+!        iptr = (intptr_t) (FILE *) fp
+!
+!-----------------------------------------------------------------------
+!
+!     Level 1:
+!
+!-----
+      subroutine  f_fstdin_intref ( iptr ) 
+!
+      use mod_funx_param, only: ck_intptr_t
+      implicit none 
+!
+      integer(kind=ck_intptr_t),intent(inout) :: iptr 
+!
+      external    c_fstdin_intref 
+!
+!
+      call c_fstdin_intref ( iptr )
+!
+      return 
+      end subroutine f_fstdin_intref 
+!
+!-----------------------------------------------------------------------
+!
+!
+      subroutine  f_fstdout_intref ( iptr ) 
+!
+      use mod_funx_param, only: ck_intptr_t
+      implicit none 
+!
+      integer(kind=ck_intptr_t),intent(inout) :: iptr 
+!
+      external    c_fstdout_intref
+!
+!
+      call c_fstdout_intref ( iptr )
+!
+      return 
+      end subroutine f_fstdout_intref
+!
+!-----------------------------------------------------------------------
+!
+!
+      subroutine  f_fstderr_intref ( iptr ) 
+!
+      use mod_funx_param, only: ck_intptr_t
+      implicit none 
+!
+      integer(kind=ck_intptr_t),intent(inout) :: iptr 
+!
+      external    c_fstderr_intref
+!
+!
+      call c_fstderr_intref ( iptr )
+!
+      return 
+      end subroutine f_fstderr_intref
+!-----------------------------------------------------------------------
+!
+!

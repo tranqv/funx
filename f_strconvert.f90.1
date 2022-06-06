@@ -1,0 +1,62 @@
+!-----------------------------------------------------------------------
+!
+!     Converting string between Fortran and C languages in the fly.
+!
+!     work ??? NO  !
+!
+!     what should we define the interface without including its source? 
+!     
+!     Ex: zzz/t_access_02.f90
+!
+!-----------------------------------------------------------------------
+!
+!
+      pure function funx_strf2c ( fstr )  result ( cstr )
+!  
+      implicit none 
+!
+      include     'i_ascii.inc'
+      include     'i_param.inc'
+!
+      character(len=*),intent(in)   :: fstr
+      character(len=1,kind=ck_char) :: cstr(len_trim(fstr)+1)
+!
+      integer :: i
+!
+!
+      do i = 1,len_trim(fstr)
+         cstr(i) = fstr(i:i)
+      enddo
+
+      cstr(i) = C0
+!
+      return 
+      end function funx_strf2c
+!
+!-----------------------------------------------------------------------
+!
+!
+      pure function funx_strc2f ( cstr )  result ( fstr )
+!  
+      implicit none 
+!
+      include     'i_ascii.inc'
+      include     'i_param.inc'
+!
+      character(len=*),intent(in)      :: cstr
+      character(len=index(cstr,C0)-1)  :: fstr
+!
+      integer :: i, ltrim
+!
+!
+      ltrim = index(cstr,C0)-1
+
+      do i = 1,ltrim
+         fstr(i:i) = cstr(i:i)
+      enddo
+!
+      return 
+      end function funx_strc2f
+!
+!-----------------------------------------------------------------------
+!
