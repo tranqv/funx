@@ -1,0 +1,13 @@
+///////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+
+//
+
+void  c_getdelim_ ( 
+   FILE **fp, char *line, size_t *len_line, int *dchar, ssize_t *nbytes )
+{
+
+   *nbytes = getdelim ( &line, len_line, *dchar, *fp ) ;
+
+}

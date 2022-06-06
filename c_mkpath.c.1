@@ -1,0 +1,79 @@
+/*
+   Recursive mkdir 
+
+   Source:
+
+      https://gist.github.com/JonathonReinhart/8c0d90191c38af2dcadb102c4e202950
+*/
+
+
+#include <string.h>
+//#include <limits.h>     // PATH_MAX ? where is it ? or _POSIX_PATH_MAX ?
+#include <linux/limits.h> 
+
+// #include <linux/limits.h> 
+// -->   /usr/include/linux/limits.h
+//       -->   PATH_MAX = 4096
+
+
+// #include <limits.h> 
+//#ifdef	__USE_POSIX
+//# include <bits/posix1_lim.h>
+//#endif
+
+// --> /usr/include/limits.h -> 
+//    -->   /usr/include/x86_64-linux-gnu/bits/posix1_lim.h
+// Number of bytes in a pathname.  
+// #define   _POSIX_PATH_MAX      256
+
+
+
+#include <sys/stat.h>   // mkdir(2)   
+#include <errno.h>
+
+int c_mkpath ( const char *path, mode_t mode )
+{
+   // Adapted from http://stackoverflow.com/a/2336245/119527   
+
+   const size_t len = strlen ( path );
+   char path_trim [ PATH_MAX ] ;
+   char *p ; 
+
+   errno = 0 ;
+
+   // Copy string so its mutable   
+
+   if ( len > sizeof(path_trim) - 1 ) 
+   {
+      errno = ENAMETOOLONG;
+      return -1; 
+   }   
+
+   strcpy ( path_trim, path ) ;
+
+   // Iterate the string   
+
+   for ( p = path_trim + 1; *p; p++ ) 
+   {
+      if ( *p == '/' ) 
+      {
+         // Temporarily truncate   
+
+         *p = '\0';
+
+         if ( mkdir( path_trim, mode ) != 0) 
+         {
+            if (errno != EEXIST) return -1 ; 
+         }
+
+         *p = '/';
+      }
+   }   
+
+   if ( mkdir ( path_trim, mode ) != 0 ) 
+   {
+      if ( errno != EEXIST ) return -1 ; 
+   }   
+
+   return 0;
+}

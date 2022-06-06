@@ -1,0 +1,20 @@
+!
+!
+!
+      subroutine funx_dec2oct ( idec, ioct )
+!
+      implicit none 
+!
+      include     'i_ascii.inc'
+      include     'i_param.inc'
+!
+      integer(ck_mode_t),intent(in)   :: idec 
+      integer(ck_mode_t),intent(out)  :: ioct 
+!
+      external    utils_decmode_2_octmode
+!
+!
+      call utils_decmode_2_octmode  ( idec, ioct ) 
+!
+      return 
+      end subroutine  funx_dec2oct

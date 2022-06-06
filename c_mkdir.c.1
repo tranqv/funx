@@ -1,0 +1,52 @@
+#include <sys/stat.h>
+#include <stdio.h>
+
+void c_mkdir_ ( char *path, int *imode ) 
+{
+   mode_t old_mask = umask(0);
+
+   int      idecimal = *imode ; 
+   mode_t   ioctal ; 
+   char     buf[7] ;
+
+   sprintf ( buf, "%d", idecimal  );
+   sscanf  ( buf, "%o", &ioctal );
+
+/*
+   printf ( "imode  = %d \t %o\n", *imode, *imode );
+   printf ( "ideci  = %d \t %o\n", idecimal, idecimal );
+   printf ( "buf    = %s\n", buf  );
+   printf ( "ioctal = %d \t %o\n", ioctal, ioctal  );
+   printf ( "path   = %s\n", path  );
+*/
+
+   mkdir ( path, ioctal );
+/*
+// mode_t koctal = 0777 ;
+   mode_t koctal =  
+               S_IRUSR | S_IWUSR | S_IXUSR | 
+               S_IROTH | S_IWOTH | S_IXOTH | 
+               S_IRGRP | S_IWGRP | S_IXGRP ; 
+
+   printf ( "koctal = %d \t %o\n", koctal, koctal  );
+
+// mkdir ( path, koctal );
+// mkdir ( path, (mode_t) 0777 );
+
+   mkdir( path, S_IRWXU | S_IRWXG | S_IRWXO );
+// mkdir( path, ACCESSPERMS );
+*/
+   umask (old_mask);
+}
+
+
+/*
+
+#include <sys/stat.h>
+   /usr/include/x86_64-linux-gnu/sys/stat.h
+   +  mode_t, dev_t, gid_t, ino_t, 
+   +  mkdir, mkfifo, 
+
+*/
+
+

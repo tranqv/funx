@@ -1,0 +1,12 @@
+////////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+
+//
+
+void  c_fputs_stdout_ ( char *str, int *istat )
+{
+   *istat = fputs ( str, stdout );
+}
+
+//
