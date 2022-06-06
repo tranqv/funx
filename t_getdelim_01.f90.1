@@ -1,0 +1,94 @@
+
+
+      program t_getdelim_01
+!
+      implicit none 
+!
+      include     'i_ascii.inc'
+      include     'i_param.inc'
+      include     'i_errno.inc'
+!
+!     type ck_line 
+!        integer(kind=ck_ssize_t)      :: len 
+!        character(len=:,kind=1),allocatable  :: ptr
+         character(len=1),dimension(:),allocatable  :: ptr
+!        character(len=1),dimension(:),pointer  :: ptr
+!        character(len=1000) :: ptr
+!     end type ck_line 
+!
+      external    c_getdelim
+!
+      type(ck_file)              :: file_i, file_o  
+!     type(ck_line)     :: sl
+      integer(kind=ck_ssize_t)   :: len_sl, nbytes 
+!
+      integer,parameter          :: lbuff = 10 * 1024
+      character(len=lbuff)       :: str 
+      character(len=1024)        :: strout
+
+      integer(kind=ck_int)       :: errno
+      integer(kind=ck_long_int)  :: offset 
+      integer(kind=ck_int)       :: whence 
+
+      character(len=ck_path_max) fnam_i, fnam_o
+      integer(kind=ck_size_t)    &
+         len_fnam_i, lentrim_fnam_i, len_fnam_o, lentrim_fnam_o  
+      integer(kind=ck_int)       dchar 
+      integer(kind=ck_int)       istat  
+!
+
+      len_fnam_i = len(fnam_i)
+      len_fnam_o = len(fnam_o)
+
+      lentrim_fnam_i = -1 
+      call funx_getarg ( 1, fnam_i, lentrim_fnam_i, errno )
+
+      lentrim_fnam_o = -1 
+      call funx_getarg ( 2, fnam_o, lentrim_fnam_o, errno )
+
+      if ( lentrim_fnam_i .le. 0 ) then
+         strout = "ERROR: Wrong input." // LF // &
+                  "Usage: streaming SRC file to DES, where" // LF // &
+                  "       DES is a regular file or STDOUT." // LF // &
+                  "  ./a.out  SRC " // LF // &
+                  "  ./a.out  SRC 2>/dev/null" // LF // &
+                  "  ./a.out  SRC DES " // LF // &
+                  "  ./a.out  SRC DES > 2>/dev/null" // LF 
+         errno = ck_einval
+         call funx_seterrno ( errno ) 
+         call funx_perror ( trim(strout), errno )
+         stop 
+      endif 
+
+      call  funx_fopen ( file_i, fnam_i(1:lentrim_fnam_i), "r", errno ) 
+      if ( errno .ne. 0 ) stop 
+
+!     write(*,*)  allocated( ptr)
+
+
+      dchar = 10 
+      call  c_getdelim ( file_i, ptr, len_sl, dchar, nbytes ) 
+
+      write(*,*) len_sl 
+      write(*,*) nbytes 
+
+!     call  funx_fputs_stdout ( sl % ptr, istat )
+
+      write(*,*)  ptr (1:)
+
+!     write(*,*)  allocated( ptr)
+
+
+!     call  c_getdelim ( file_i, str, len_sl, dchar, nbytes ) 
+
+!     write(*,*) len_sl 
+!     write(*,*) nbytes 
+
+!     call  funx_fputs_stdout ( str(1:len_sl), istat )
+
+!     write(*,*)  str(1:len_sl)
+
+
+
+
+      end program 
